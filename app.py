@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import json
 import mysql.connector
+import datetime
 
 mydb = mysql.connector.connect(
   host="localhost",
@@ -38,15 +39,24 @@ jsonedJSON.append({'IBAN':rowIBAN, 'balanceTotal': balanceTotal, 'balanceDate':b
 '''
 print(jsonedJSON)
 
+#valuta INSERIMENTO DIRETTAMENTE DF TO SQL
+#https://stackoverflow.com/questions/16476413/how-to-insert-pandas-dataframe-via-mysqldb-into-database
+
 with open('data.json','w+') as outfile:
     outfile.write(json.dumps(jsonedJSON))
 
 val = []
 for obj in jsonedJSON:
-    val.append((obj['IMPORTO'],obj['DESCRIZIONE']))
+    if(obj['DATA VALUTA'] != None):
+        dataValuta = datetime.datetime.strptime(obj['DATA VALUTA'],'%d/%m/%Y')
+        dataValuta = datetime.datetime.strftime(dataValuta,'%Y-%m-%d')
+        dataContabile = datetime.datetime.strptime(obj['DATA CONTABILE'],'%d/%m/%Y')
+        dataContabile = datetime.datetime.strftime(dataContabile,'%Y-%m-%d')
+        val.append((obj['IMPORTO'],obj['DESCRIZIONE'],dataValuta,dataContabile))
+        
 
 mycursor = mydb.cursor()
-sql = "INSERT INTO movements (importo, descrizione) VALUES (%s, %s)"
+sql = "INSERT INTO movements (importo, descrizione,dataValuta,dataContabile) VALUES (%s, %s, %s,%s)"
 
 mycursor.executemany(sql, val)
 
