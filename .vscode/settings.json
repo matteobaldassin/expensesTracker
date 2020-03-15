@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "C:\\Users\\balda\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe",
-    "python.formatting.provider": "black"
+    "python.pythonPath": "C:\\Users\\netpolaris\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe",
+    "python.formatting.provider": "autopep8"
 }
