@@ -7,3 +7,7 @@ un webserver per la comunicazione front-back
 
 - Tira su backend
 - Connessione a Database MySQL
+
+### Useful links
+
+[FLASK-MYSQL] https://www.codementor.io/@adityamalviya/python-flask-mysql-connection-rxblpje73
