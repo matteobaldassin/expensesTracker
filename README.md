@@ -5,8 +5,8 @@ un webserver per la comunicazione front-back
 
 ## TO DO LIST
 
-- Tira su backend
-- Connessione a Database MySQL
+- improve json format in GET response
+- implement good POST method
 
 ### Useful links
 
