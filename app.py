@@ -34,10 +34,28 @@ def get_categories():
 
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT * FROM categories")
-        myresult = cursor.fetchall()
+
+        desc = cursor.description
+        column_names = [col[0] for col in desc]
+
+        # TODO: improve this method, could work for every table like this....
+        '''
+        for index, row in enumerate(myresult):
+            for i, col_name in enumerate(column_names):
+                category = {str(col_name): str(row[i])}
+                print(category)
+                #print('colname: '+str(col_name)+' row: '+str(row[i]))
+        '''
+        categories = []
+        for row in cursor.fetchall():
+            category = {column_names[0]: row[0],
+                        column_names[1]: str(row[1]),
+                        column_names[2]: str(row[1]),
+                        column_names[3]: str(row[3])}
+            categories.append(category)
         cursor.close()
 
-        return jsonify(myresult)
+    return jsonify(categories)
 
 
 @app.route('/categories/<string:category_id>', methods=['GET'])
@@ -47,11 +65,19 @@ def get_category_from_id(category_id):
         cursor = mysql.connection.cursor()
         cursor.execute(
             "SELECT * FROM categories WHERE category_id = "+category_id)
+
+        desc = cursor.description
+        column_names = [col[0] for col in desc]
+
         myresult = cursor.fetchone()
+        category = {column_names[0]: myresult[0],
+                    column_names[1]: str(myresult[1]),
+                    column_names[2]: str(myresult[1]),
+                    column_names[3]: str(myresult[3])}
 
         cursor.close()
 
-        return jsonify(myresult)
+    return jsonify(category)
 
 
 if __name__ == '__main__':
