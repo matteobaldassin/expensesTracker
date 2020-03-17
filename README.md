@@ -5,6 +5,7 @@ un webserver per la comunicazione front-back
 
 ## TO DO LIST
 
+- ! add insertion_date in expenses table
 - check (if easy) to work with python dict instead of json object (and return -> jsonify(dict))
 - implement good POST method
 - implement interface (maybe use the altervista bootstrap one)
