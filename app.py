@@ -80,5 +80,5 @@ def get_category_from_id(category_id):
     return jsonify(category)
 
 
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=80, debug=True)
