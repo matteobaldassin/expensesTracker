@@ -46,7 +46,8 @@ def get_categories():
         cursor.execute("SELECT * FROM categories")
 
         response = cursor.fetchall()
-        column_names = cursor.column_names
+        desc = cursor.description
+        column_names = [col[0] for col in desc]
 
         for num, row in enumerate(response):
             result.append(dict(zip(column_names, row)))
@@ -65,7 +66,8 @@ def get_expenses():
         cursor.execute("SELECT * FROM expenses")
 
         response = cursor.fetchall()
-        column_names = cursor.column_names
+        desc = cursor.description
+        column_names = [col[0] for col in desc]
 
         for num, row in enumerate(response):
             result.append(dict(zip(column_names, row)))
