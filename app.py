@@ -90,4 +90,5 @@ def get_category_from_id(category_id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.debug = True
+    app.run()
