@@ -1,7 +1,15 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask
+#from flask import render_template, request, jsonify
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
+
+
+@app.route("/")
+def hello():
+    return "Hello world!"
+
+
 '''
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -81,4 +89,4 @@ def get_category_from_id(category_id):
 
 '''
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
