@@ -40,31 +40,39 @@ def index():
 @app.route('/categories', methods=['GET'])
 def get_categories():
     if request.method == "GET":
+        result = []
 
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT * FROM categories")
 
-        desc = cursor.description
-        column_names = [col[0] for col in desc]
+        response = cursor.fetchall()
+        column_names = mycursor.column_names
 
-        # TODO: improve this method, could work for every table like this....
-        '''
-        for index, row in enumerate(myresult):
-            for i, col_name in enumerate(column_names):
-                category = {str(col_name): str(row[i])}
-                print(category)
-                #print('colname: '+str(col_name)+' row: '+str(row[i]))
-        '''
-        categories = []
-        for row in cursor.fetchall():
-            category = {column_names[0]: row[0],
-                        column_names[1]: str(row[1]),
-                        column_names[2]: str(row[1]),
-                        column_names[3]: str(row[3])}
-            categories.append(category)
+        for num, row in enumerate(response):
+            result.append(dict(zip(column_names, row)))
+
         cursor.close()
 
-    return jsonify(categories)
+    return jsonify(result)
+
+
+@app.route('/expenses', methods=['GET'])
+def get_categories():
+    if request.method == "GET":
+        result = []
+
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT * FROM expenses")
+
+        response = cursor.fetchall()
+        column_names = mycursor.column_names
+
+        for num, row in enumerate(response):
+            result.append(dict(zip(column_names, row)))
+
+        cursor.close()
+
+    return jsonify(result)
 
 
 @app.route('/categories/<string:category_id>', methods=['GET'])
