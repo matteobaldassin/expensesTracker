@@ -13,6 +13,12 @@ app.config['MYSQL_DB'] = 'expenses_tracker'
 mysql = MySQL(app)
 
 
+@app.route("/")
+def hello():
+    return "Hello world2!"
+
+
+'''
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == "POST":
@@ -28,6 +34,7 @@ def index():
         cursor.close()
         return 'success'
     return render_template('index.html')
+'''
 
 
 @app.route('/categories', methods=['GET'])
