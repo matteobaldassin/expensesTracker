@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
-
+'''
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
@@ -39,13 +39,13 @@ def get_categories():
         column_names = [col[0] for col in desc]
 
         # TODO: improve this method, could work for every table like this....
-        '''
+        ''
         for index, row in enumerate(myresult):
             for i, col_name in enumerate(column_names):
                 category = {str(col_name): str(row[i])}
                 print(category)
                 #print('colname: '+str(col_name)+' row: '+str(row[i]))
-        '''
+        ''
         categories = []
         for row in cursor.fetchall():
             category = {column_names[0]: row[0],
@@ -79,6 +79,6 @@ def get_category_from_id(category_id):
 
     return jsonify(category)
 
-
+'''
 if __name__ == "__main__":
     app.run(debug=True)
