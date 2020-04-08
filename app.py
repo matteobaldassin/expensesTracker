@@ -16,7 +16,7 @@ mysql = MySQL(app)
 
 @app.route("/")
 def hello():
-    return "Hello world2!"
+    return render_template('index.html')
 
 
 '''
