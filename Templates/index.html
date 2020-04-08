@@ -261,7 +261,7 @@
           getExpenses: function () {
             var self = this;
             axios
-              .get("/expenses")
+              .get("/expensesTracker/API/expenses")
               .then(function (response) {
                 self.expenses = response.data;
                 console.log(response);
