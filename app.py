@@ -37,7 +37,7 @@ def index():
 '''
 
 
-@app.route('/categories', methods=['GET'])
+@app.route('/API/categories', methods=['GET'])
 def get_categories():
     if request.method == "GET":
         result = []
@@ -57,7 +57,7 @@ def get_categories():
     return jsonify(result)
 
 
-@app.route('/expenses', methods=['GET'])
+@app.route('/API/expenses', methods=['GET'])
 def get_expenses():
     if request.method == "GET":
         result = []
@@ -77,26 +77,46 @@ def get_expenses():
     return jsonify(result)
 
 
-@app.route('/categories/<string:category_id>', methods=['GET'])
+@app.route('/API/categories/<string:category_id>', methods=['GET'])
 def get_category_from_id(category_id):
     if request.method == "GET":
+
+        result = {}
 
         cursor = mysql.connection.cursor()
         cursor.execute(
             "SELECT * FROM categories WHERE category_id = "+category_id)
 
+        response = cursor.fetchone()
         desc = cursor.description
         column_names = [col[0] for col in desc]
 
-        myresult = cursor.fetchone()
-        category = {column_names[0]: myresult[0],
-                    column_names[1]: str(myresult[1]),
-                    column_names[2]: str(myresult[1]),
-                    column_names[3]: str(myresult[3])}
+        if response is not None:
+            result = dict(zip(column_names, response))
 
         cursor.close()
 
-    return jsonify(category)
+    return jsonify(result)
+
+
+@app.route('/API/expenses/<string:expense_id>', methods=['GET'])
+def get_expense_from_id(expense_id):
+    if request.method == "GET":
+        result = {}
+
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT * FROM expenses WHERE expense_id = "+expense_id)
+
+        response = cursor.fetchone()
+        desc = cursor.description
+        column_names = [col[0] for col in desc]
+
+        if response is not None:
+            result = dict(zip(column_names, response))
+
+        cursor.close()
+
+    return jsonify(result)
 
 
 if __name__ == "__main__":
