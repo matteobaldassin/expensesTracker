@@ -2,8 +2,28 @@
 from flask import Flask
 from flask import render_template, request, jsonify
 from flask_mysqldb import MySQL
+from flasgger import Swagger
 
 app = Flask(__name__)
+
+swagger_config = {
+    "headers": [
+    ],
+    "specs": [
+        {
+            "endpoint": 'apispec_1',
+            "route": '/apispec_1.json',
+            "rule_filter": lambda rule: True,  # all in
+            "model_filter": lambda tag: True,  # all in
+        }
+    ],
+    "static_url_path": "/flasgger_static",
+    # "static_folder": "static",  # must be set by user
+    "swagger_ui": True,
+    "specs_route": "/API/"
+}
+
+swagger = Swagger(app, config=swagger_config)
 
 
 app.config['MYSQL_HOST'] = 'localhost'
@@ -39,6 +59,34 @@ def index():
 
 @app.route('/API/categories', methods=['GET'])
 def get_categories():
+    """Example endpoint returning a list of categories
+    This is using docstrings for specifications.
+    ---
+    parameters:
+      - name: palette
+        in: path
+        type: string
+        enum: ['all', 'rgb', 'cmyk']
+        required: true
+        default: all
+    definitions:
+      Palette:
+        type: object
+        properties:
+          palette_name:
+            type: array
+            items:
+              $ref: '#/definitions/Color'
+      Color:
+        type: string
+    responses:
+      200:
+        description: A list of colors (may be filtered by palette)
+        schema:
+          $ref: '#/definitions/Palette'
+        examples:
+          rgb: ['red', 'green', 'blue']
+    """
     if request.method == "GET":
         result = []
 
